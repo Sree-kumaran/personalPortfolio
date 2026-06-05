@@ -1,6 +1,7 @@
 // Import required dependencies
 const express = require("express");
 const mongoose = require("mongoose");
+const healthRouter = require("./routes/health");
 require("dotenv").config(); // Loads variables from the .env file
 
 // Initialize the Express application
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware to parse incoming JSON payloads
 app.use(express.json());
+app.use("/api", healthRouter);
 
 /**
  * MongoDB Database Connection Function
