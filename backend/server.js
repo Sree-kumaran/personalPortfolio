@@ -1,50 +1,40 @@
-// Import required dependencies
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config(); // Loads variables from the .env file
+require("dotenv").config();
 
-// Initialize the Express application
+const portfolioRoutes = require("./routes/portfolioRoutes");
+
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware to parse incoming JSON payloads
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-/**
- * MongoDB Database Connection Function
- */
-const connectDB = async () => {
-  try {
-    // Attempt connection using the URI stored in environment variables
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB Connected Successfully: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`❌ Database Connection Error: ${error.message}`);
-    process.exit(1); // Force terminate the process if connection fails
-  }
-};
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/portfolio")
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log("MongoDB connection error:", err));
 
-// Invoke the database connection function
-connectDB();
+// Routes
+app.use("/api/portfolio", portfolioRoutes);
 
-/**
- * Sample API Routes
- */
-// Basic health check route
+// Basic route
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Backend server is up and running!" });
+  res.json({ message: "Portfolio API is running" });
 });
 
-// Fallback for non-existent routes
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    message: "Server error",
+  });
 });
 
-/**
- * Start the Express Web Server
- */
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(
-    `🚀 Server successfully launched on port http://localhost:${PORT}`,
-  );
+  console.log(`Server running on port ${PORT}`);
 });
