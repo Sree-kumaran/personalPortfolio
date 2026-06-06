@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
 import Skills from "../components/Skills";
+import Projects from "../components/Projects";
 import ContactInfo from "../components/ContactInfo";
 import portfolioService from "../services/portfolioService";
 
@@ -61,6 +62,7 @@ const Home = () => {
           <Hero portfolio={portfolio} />
           <About portfolio={portfolio} />
           <Skills />
+          <Projects />
           <ContactInfo portfolio={portfolio} />
         </>
       )}

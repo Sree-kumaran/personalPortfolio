@@ -40,6 +40,12 @@ const Navbar = () => {
               Skills
             </button>
             <button
+              onClick={() => handleScroll("projects")}
+              className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
+            >
+              Projects
+            </button>
+            <button
               onClick={() => handleScroll("contact")}
               className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
             >

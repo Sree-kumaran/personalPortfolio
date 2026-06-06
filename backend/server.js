@@ -15,31 +15,15 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
-// Import Routes (with error handling)
-let portfolioRoutes, skillRoutes;
+// Import Routes
+const portfolioRoutes = require("./routes/portfolioRoutes");
+const skillRoutes = require("./routes/skillRoutes");
+const projectRoutes = require("./routes/projectRoutes");
 
-try {
-  portfolioRoutes = require("./routes/portfolioRoutes");
-  console.log("Portfolio routes loaded");
-} catch (err) {
-  console.error("Error loading portfolio routes:", err.message);
-}
-
-try {
-  skillRoutes = require("./routes/skillRoutes");
-  console.log("Skill routes loaded");
-} catch (err) {
-  console.error("Error loading skill routes:", err.message);
-}
-
-// Register Routes (only if loaded successfully)
-if (portfolioRoutes) {
-  app.use("/api/portfolio", portfolioRoutes);
-}
-
-if (skillRoutes) {
-  app.use("/api/skills", skillRoutes);
-}
+// Register Routes
+app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/skills", skillRoutes);
+app.use("/api/projects", projectRoutes);
 
 // Basic route
 app.get("/", (req, res) => {

@@ -15,6 +15,18 @@ const portfolioSchema = new mongoose.Schema(
         technologies: [String],
       },
     ],
+    projects: [
+      {
+        title: String,
+        description: String,
+        technologies: [String],
+        githubLink: String,
+        liveLink: String,
+        category: String,
+        featured: Boolean,
+        image: String,
+      },
+    ],
   },
   { timestamps: true },
 );
