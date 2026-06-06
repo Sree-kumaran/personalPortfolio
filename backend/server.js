@@ -1,50 +1,70 @@
-// Import required dependencies
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config(); // Loads variables from the .env file
+const cors = require("cors");
+require("dotenv").config();
 
-// Initialize the Express application
+const Portfolio = require("./models/Portfolio");
+const portfolioRoutes = require("./routes/portfolioRoutes");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware to parse incoming JSON payloads
+app.use(cors());
 app.use(express.json());
 
-/**
- * MongoDB Database Connection Function
- */
 const connectDB = async () => {
   try {
-    // Attempt connection using the URI stored in environment variables
     const conn = await mongoose.connect(process.env.MONGO_URI);
     console.log(`✅ MongoDB Connected Successfully: ${conn.connection.host}`);
   } catch (error) {
     console.error(`❌ Database Connection Error: ${error.message}`);
-    process.exit(1); // Force terminate the process if connection fails
+    process.exit(1);
   }
 };
 
-// Invoke the database connection function
-connectDB();
+const seedDefaultPortfolio = async () => {
+  const portfolioCount = await Portfolio.countDocuments();
 
-/**
- * Sample API Routes
- */
-// Basic health check route
+  if (portfolioCount === 0) {
+    await Portfolio.create({
+      name: "Sree Kumaran S",
+      email: "",
+      github: "",
+      linkedin: "",
+      phone: "",
+      about:
+        "Passionate Computer Science undergraduate interested in software development, web technologies, full-stack development, cloud computing, and research.",
+      education:
+        "Final Year Undergraduate Student, Computer Science and Engineering",
+    });
+
+    console.log("✅ Default portfolio document created.");
+  }
+};
+
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Backend server is up and running!" });
+  res.status(200).json({
+    success: true,
+    message: "Backend server is up and running!",
+  });
 });
 
-// Fallback for non-existent routes
+app.use("/api/portfolio", portfolioRoutes);
+
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
 });
 
-/**
- * Start the Express Web Server
- */
-app.listen(PORT, () => {
-  console.log(
-    `🚀 Server successfully launched on port http://localhost:${PORT}`,
-  );
-});
+const startServer = async () => {
+  await connectDB();
+  await seedDefaultPortfolio();
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Server successfully launched on http://localhost:${PORT}`);
+  });
+};
+
+startServer();
