@@ -9,6 +9,12 @@ const portfolioSchema = new mongoose.Schema(
     phone: String,
     about: String,
     education: String,
+    skills: [
+      {
+        category: String,
+        technologies: [String],
+      },
+    ],
   },
   { timestamps: true },
 );

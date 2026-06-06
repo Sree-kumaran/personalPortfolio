@@ -11,21 +11,58 @@ const seedPortfolio = async () => {
     // Clear existing data
     await Portfolio.deleteMany({});
 
-    // Create initial portfolio
+    // Create initial portfolio with skills
     const portfolio = new Portfolio({
       name: "Sree Kumaran S",
-      email: "",
-      github: "",
-      linkedin: "",
-      phone: "",
+      email: "sreekumaranshanmugamoffl@outlook.com",
+      github: "https://github.com/Sree-kumaran",
+      linkedin: "www.linkedin.com/in/sk-shanmugam",
+      phone: "8667661096",
       about:
         "Passionate Computer Science undergraduate interested in software development, web technologies, full-stack development, cloud computing, and research.",
       education:
         "Final Year Undergraduate Student\nComputer Science and Engineering",
+      skills: [
+        {
+          category: "Frontend",
+          technologies: [
+            "React",
+            "JavaScript",
+            "HTML",
+            "CSS",
+            "Tailwind CSS",
+            "Vite",
+          ],
+        },
+        {
+          category: "Backend",
+          technologies: [
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "Mongoose",
+            "REST APIs",
+          ],
+        },
+        {
+          category: "Programming Languages",
+          technologies: ["Java", "Python", "JavaScript", "C++"],
+        },
+        {
+          category: "Tools & Technologies",
+          technologies: [
+            "Git",
+            "GitHub",
+            "VS Code",
+            "Postman",
+            "MongoDB Atlas",
+          ],
+        },
+      ],
     });
 
     await portfolio.save();
-    console.log("Portfolio seeded successfully!");
+    console.log("Portfolio seeded successfully with skills!");
     process.exit(0);
   } catch (error) {
     console.error("Error seeding portfolio:", error);

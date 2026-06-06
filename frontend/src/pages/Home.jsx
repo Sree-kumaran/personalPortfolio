@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
+import Skills from "../components/Skills";
 import ContactInfo from "../components/ContactInfo";
 import portfolioService from "../services/portfolioService";
 
@@ -59,6 +60,7 @@ const Home = () => {
         <>
           <Hero portfolio={portfolio} />
           <About portfolio={portfolio} />
+          <Skills />
           <ContactInfo portfolio={portfolio} />
         </>
       )}

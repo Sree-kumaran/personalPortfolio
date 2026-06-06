@@ -1,6 +1,13 @@
 import React from "react";
 
 const Navbar = () => {
+  const handleScroll = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-700">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,24 +21,30 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
-            <a
-              href="#home"
+            <button
+              onClick={() => handleScroll("home")}
               className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
             >
               Home
-            </a>
-            <a
-              href="#about"
+            </button>
+            <button
+              onClick={() => handleScroll("about")}
               className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
             >
               About
-            </a>
-            <a
-              href="#contact"
+            </button>
+            <button
+              onClick={() => handleScroll("skills")}
+              className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
+            >
+              Skills
+            </button>
+            <button
+              onClick={() => handleScroll("contact")}
               className="text-gray-300 hover:text-blue-400 transition-colors duration-300"
             >
               Contact
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}

@@ -3,8 +3,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const portfolioRoutes = require("./routes/portfolioRoutes");
-
 const app = express();
 
 // Middleware
@@ -17,8 +15,31 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
-// Routes
-app.use("/api/portfolio", portfolioRoutes);
+// Import Routes (with error handling)
+let portfolioRoutes, skillRoutes;
+
+try {
+  portfolioRoutes = require("./routes/portfolioRoutes");
+  console.log("Portfolio routes loaded");
+} catch (err) {
+  console.error("Error loading portfolio routes:", err.message);
+}
+
+try {
+  skillRoutes = require("./routes/skillRoutes");
+  console.log("Skill routes loaded");
+} catch (err) {
+  console.error("Error loading skill routes:", err.message);
+}
+
+// Register Routes (only if loaded successfully)
+if (portfolioRoutes) {
+  app.use("/api/portfolio", portfolioRoutes);
+}
+
+if (skillRoutes) {
+  app.use("/api/skills", skillRoutes);
+}
 
 // Basic route
 app.get("/", (req, res) => {
